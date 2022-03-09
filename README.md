@@ -1,5 +1,5 @@
 
-[![releases](https://img.shields.io/badge/support-x86-blue?style=flat&logo=rss)](https://github.com/c939984606/OpenWrt_AutoAction/releases)  [![Lean](https://img.shields.io/badge/SourceCode-Lean-green?style=flat&logo=GitHub)](https://github.com/coolsnowwolf/lede) [![releases](https://img.shields.io/badge/UpdateCheck-blueviolet?style=flat&logo=Checkmarx)](https://github.com/c939984606/OpenWrt_AutoAction/releases) [![Action](https://img.shields.io/badge/GithubAction-5Actions-important?style=flat&logo=GitHubActions)](https://github.com/c939984606/OpenWrt_AutoAction/releases)
+[![releases](https://img.shields.io/badge/support-x86-blue?style=flat&logo=rss)](https://github.com/c939984606/OpenWrt_Auto_Action/releases)  [![Lean](https://img.shields.io/badge/SourceCode-Lean-green?style=flat&logo=GitHub)](https://github.com/coolsnowwolf/lede) [![releases](https://img.shields.io/badge/UpdateCheck-blueviolet?style=flat&logo=Checkmarx)](https://github.com/c939984606/OpenWrt_Auto_Action/releases) [![Action](https://img.shields.io/badge/GithubAction-Actions-important?style=flat&logo=GitHubActions)](https://github.com/c939984606/OpenWrt_Auto_Action/actions)
 # Lean Openwrt GitHubAction
 
 #### ➤➤ 根据源码更新自动编译:
