@@ -94,13 +94,15 @@ jobs:
 
     - name: Update feeds
       run: |
-        cd openwrt && ./scripts/feeds update luci
-        cd openwrt && ./scripts/feeds update -a
+        cd openwrt
+        ./scripts/feeds update luci
+        ./scripts/feeds update -a
 
     - name: Install feeds
       run: |
-        cd openwrt && ./scripts/feeds install -f -p luci
-        cd openwrt && ./scripts/feeds install -f
+        cd openwrt
+        ./scripts/feeds install -f -p luci
+        ./scripts/feeds install -f
 
     - name: Load custom configuration
       run: |
