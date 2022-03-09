@@ -27,65 +27,63 @@ sed -i 's/echo $h/echo $g/g' package/lean/autocore/files/x86/autocore
 #关闭串口跑码
 #sed -i 's/console=tty0//g'  target/linux/x86/image/Makefile
 
-# 优化配置
-optimize(){
 
-	#修改X86默认固件大小
-	if [[ `grep -o "default 160" config/Config-images.in | wc -l` == "1" ]]; then
-		sed -i 's\default 160\default 300\g' config/Config-images.in
-	else
-		echo ""
-	fi
+#修改X86默认固件大小
+if [[ `grep -o "default 160" config/Config-images.in | wc -l` == "1" ]]; then
+    sed -i 's\default 160\default 300\g' config/Config-images.in
+else
+    echo ""
+fi
 
-    #修改默认主题为luci-theme-argonne
-    sed -i "s/Bootstrap/Argonne/g" ./feeds/luci/collections/luci/Makefile
-    sed -i "s/luci-theme-bootstrap/luci-theme-argonne/g" ./feeds/luci/collections/luci/Makefile
+#修改默认主题为luci-theme-argonne
+sed -i "s/Bootstrap/Argonne/g" ./feeds/luci/collections/luci/Makefile
+sed -i "s/luci-theme-bootstrap/luci-theme-argonne/g" ./feeds/luci/collections/luci/Makefile
 
-	#修改x86首页
-	#  rm -rf package/lean/autocore/files/index.htm
-	wget -O x86_index.htm https://raw.githubusercontent.com/c939984606/OpenWrt_AutoAction/main/Other/x86_index.htm
-	cp -rf ./x86_index.htm package/lean/autocore/files/x86/index.htm
-	base_zh_po_if=$(grep -o "#天气预报" feeds/luci/modules/luci-base/po/zh-cn/base.po)
-	if [[ "$base_zh_po_if" == "#天气预报" ]]; then
-	   echo "已添加天气预报"
-	else
-	   sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a #天气预报' feeds/luci/modules/luci-base/po/zh-cn/base.po
-       	   sed -i '$a msgid "Weather"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-           sed -i '$a msgstr "天气"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgid "Local Weather"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgstr "本地天气"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-    fi
+#修改x86首页
+#  rm -rf package/lean/autocore/files/index.htm
+wget -O x86_index.htm https://raw.githubusercontent.com/c939984606/OpenWrt_AutoAction/main/Other/x86_index.htm
+cp -rf ./x86_index.htm package/lean/autocore/files/x86/index.htm
+base_zh_po_if=$(grep -o "#天气预报" feeds/luci/modules/luci-base/po/zh-cn/base.po)
+if [[ "$base_zh_po_if" == "#天气预报" ]]; then
+    echo "已添加天气预报"
+else
+    sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a #天气预报' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgid "Weather"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgstr "天气"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgid "Local Weather"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgstr "本地天气"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+fi
 
-	#首页显示编译时间 作者 下载地址
-	Compile_time_if=$(grep -o "#首页显示编译时间" feeds/luci/modules/luci-base/po/zh-cn/base.po)
-	if [[ "$Compile_time_if" == "#首页显示编译时间" ]]; then
-	   echo "已添加首页显示编译时间"
-	else
-	   sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a #首页显示编译时间' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgid "Compile_time"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgstr "固件编译时间"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a #首页显示编译作者' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgid "Compile_author"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgstr "固件编译作者"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a #首页显示下载地址' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgid "Frimware_dl"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	   sed -i '$a msgstr "固件更新地址"' feeds/luci/modules/luci-base/po/zh-cn/base.po
-	fi
-	sed -i '/Compile_time/d' package/lean/default-settings/files/zzz-default-settings
-	sed -i '/Compile_author/d' package/lean/default-settings/files/zzz-default-settings
-	sed -i '/Frimware_dl/d' package/lean/default-settings/files/zzz-default-settings
-	sed -i '/exit/d' package/lean/default-settings/files/zzz-default-settings
-	echo "echo \"`date "+%Y-%m-%d %H:%M"` (commit:`git log -1 --format=format:'%C(bold white)%h%C(reset)'`)\" >> /etc/Compile_time" >> package/lean/default-settings/files/zzz-default-settings
-	echo "echo \"➤➤ By 一路阳光&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;➤➤ https://blog.abcdl.cn\" >> /etc/Compile_author" >> package/lean/default-settings/files/zzz-default-settings
-	echo "echo \"➤➤ 点击此处下载&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✿提取码：nbn9\" >> /etc/Frimware_dl" >> package/lean/default-settings/files/zzz-default-settings
-	echo "exit 0" >> package/lean/default-settings/files/zzz-default-settings
+#首页显示编译时间 作者 下载地址
+Compile_time_if=$(grep -o "#首页显示编译时间" feeds/luci/modules/luci-base/po/zh-cn/base.po)
+if [[ "$Compile_time_if" == "#首页显示编译时间" ]]; then
+    echo "已添加首页显示编译时间"
+else
+    sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a #首页显示编译时间' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgid "Compile_time"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgstr "固件编译时间"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a #首页显示编译作者' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgid "Compile_author"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgstr "固件编译作者"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a \       ' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a #首页显示下载地址' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgid "Frimware_dl"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+    sed -i '$a msgstr "固件更新地址"' feeds/luci/modules/luci-base/po/zh-cn/base.po
+fi
+sed -i '/Compile_time/d' package/lean/default-settings/files/zzz-default-settings
+sed -i '/Compile_author/d' package/lean/default-settings/files/zzz-default-settings
+sed -i '/Frimware_dl/d' package/lean/default-settings/files/zzz-default-settings
+sed -i '/exit/d' package/lean/default-settings/files/zzz-default-settings
+echo "echo \"`date "+%Y-%m-%d %H:%M"` (commit:`git log -1 --format=format:'%C(bold white)%h%C(reset)'`)\" >> /etc/Compile_time" >> package/lean/default-settings/files/zzz-default-settings
+echo "echo \"➤➤ By 一路阳光&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;➤➤ https://blog.abcdl.cn\" >> /etc/Compile_author" >> package/lean/default-settings/files/zzz-default-settings
+echo "echo \"➤➤ 点击此处下载&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✿提取码：nbn9\" >> /etc/Frimware_dl" >> package/lean/default-settings/files/zzz-default-settings
+echo "exit 0" >> package/lean/default-settings/files/zzz-default-settings
 
-}
+#-------------------------------------------------------------------------------------------------------------------------------
 
 rm -rf package/other
 mkdir package/other
@@ -222,5 +220,3 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-argonne-config
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-tomato ./package/other/luci-theme-tomato
 echo "-----------------------------------------------------"
 echo
-
-optimize
