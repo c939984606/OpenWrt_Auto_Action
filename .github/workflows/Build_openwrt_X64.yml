@@ -171,7 +171,7 @@ jobs:
         rm -rf ./passwd-s3fs
         mkdir -p ./upload/OpenWrt/$(date +%Y%m%d)
         cp -rf ./upload_tmp/* ./upload/OpenWrt/$(date +%Y%m%d)
-        umount -f $PWD/upload
+        sudo umount -f $PWD/upload
         
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
