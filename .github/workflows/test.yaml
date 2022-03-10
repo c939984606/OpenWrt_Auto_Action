@@ -1,5 +1,5 @@
 ##
-name: Build-OpenWrt_X64
+name: test
 
 on:
   repository_dispatch:
