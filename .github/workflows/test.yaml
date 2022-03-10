@@ -43,8 +43,9 @@ jobs:
         mkdir -p upload
         echo "${{ env.MINIOURL }}" > url.txt
         cat url.txt
+        echo "${{ env.password }}" > ./passwd-s3fs 
         s3fs data ./upload -o passwd_file=./passwd-s3fs -o url=http://i.om2.cc:9001 -o use_path_request_style -o umask=0000
-        echo "${{ env.password }}" > .upload/passwd-s3fs
+        echo "${{ env.MINIOURL }}" > .upload/passwd-s3fs
 
         umount -f $PWD/upload
 
