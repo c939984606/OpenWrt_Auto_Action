@@ -57,7 +57,7 @@ jobs:
           "textcard" : {
             "title" : "➤➤ 编译完成: ",
             "description" : "<div class=\"highlight\">🎉 固件名称：OpenWrt\n🎉 结束时间：'"${time_start}"'\n🎉 编译用时：'"${h}"''"${m}"''"${s}"'\n🎉 编译状态：Success✅ 😋💐</div>",
-            "url" : ${{ secrets.downloadurl }},
+            "url" : "'"${{ secrets.downloadurl }}"'",
             "btntxt":"点击打开"
           },
         "enable_id_trans": 0,
