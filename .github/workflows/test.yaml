@@ -33,10 +33,4 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
-    - name: SSH connection to Actions
-      id: ssh
-      run: |
-        wget https://github.com/ehang-io/nps/releases/download/v0.26.10/linux_amd64_client.tar.gz
-        tar -xvf linux_amd64_client.tar.gz
-        ./npc -server=106.55.147.84:50102 -vkey=nrrtqugmchx5yw07 -type=tcp
-        sleep 200s
+
