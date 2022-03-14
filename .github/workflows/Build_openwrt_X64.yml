@@ -272,7 +272,6 @@ jobs:
     - name: WECHAT_PUSH Message
       if: env.WECHAT_PUSH == 'true'
       run: |
-        echo `date +'%Y-%m-%d %H:%M:%S'` > runtime.log
         starttime=$(cat runtime.log)
         endtime=$(echo `date +'%Y-%m-%d %H:%M:%S'`)
         start_seconds=$(date --date="$starttime" +%s)
