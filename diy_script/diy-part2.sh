@@ -178,7 +178,7 @@ echo
 
 # add passwall
 #git clone https://github.com/kenzok8/small ./package/other/small
-#svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall ./package/other/luci-app-passwall
+#svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall2 ./package/other/luci-app-passwall2
 #echo "-----------------------------------------------------"
 #echo
 
