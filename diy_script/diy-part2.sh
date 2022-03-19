@@ -10,9 +10,6 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
-# Modify default IP
-sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
-
 # Modify default passwd
 #sed -i '/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF./ d' package/lean/default-settings/files/zzz-default-settings
 
@@ -27,6 +24,8 @@ sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_genera
 #关闭串口跑码
 #sed -i 's/console=tty0//g'  target/linux/x86/image/Makefile
 
+# Modify default IP
+sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
 
 #修改X86默认固件大小
 if [[ `grep -o "default 160" config/Config-images.in | wc -l` == "1" ]]; then
@@ -36,8 +35,8 @@ else
 fi
 
 #修改默认主题为luci-theme-argonne
-sed -i "s/Bootstrap/Argonne/g" ./feeds/luci/collections/luci/Makefile
-sed -i "s/luci-theme-bootstrap/luci-theme-argonne/g" ./feeds/luci/collections/luci/Makefile
+#sed -i "s/Bootstrap/Argonne/g" ./feeds/luci/collections/luci/Makefile
+#sed -i "s/luci-theme-bootstrap/luci-theme-argonne/g" ./feeds/luci/collections/luci/Makefile
 
 #修改x86首页
 #  rm -rf package/lean/autocore/files/index.htm
@@ -220,3 +219,10 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-argonne-config
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-tomato ./package/other/luci-theme-tomato
 echo "-----------------------------------------------------"
 echo
+
+#删除默认主题配置
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/ifit/d' ./package/other//luci-theme-ifit/files/10_luci-theme-ifit
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/netgear/d' ./feeds/luci/themes/luci-theme-netgear/root/etc/uci-defaults/30_luci-theme-netgear
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/neobird/d' ./package/other/luci-theme-neobird/root/etc/uci-defaults/30_luci-theme-neobird
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/edge/d' ./package/other/luci-theme-edge/root/etc/uci-defaults/30_luci-theme-edge
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/bootstrap/d' ./feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
