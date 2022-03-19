@@ -28,9 +28,36 @@ env:
 jobs:
   build:
     runs-on: ubuntu-20.04
-
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+        sudo -E apt-get -qq update
+        sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-2004)
+        sudo -E apt-get -qq autoremove --purge
+        sudo -E apt-get -qq clean
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+
+    - name: Clone source code
+      working-directory: /workdir
+      run: |
+        df -hT $PWD
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: Organize files
+      id: organize
+      run: |
+        cd openwrt/bin/targets/*/*
+        rm -rf packages
+        find . -type f -name "*.vmdk" -print0 | xargs -0r rm
+        find . -type f -name "*rootfs*" -print0 | xargs -0r rm
+        find . -type f -name "*kernel.bin" -print0 | xargs -0r rm        
+        find . -type f -name "*.img" | xargs cp -rt ./upload_tmp
 
 
