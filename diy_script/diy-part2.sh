@@ -20,9 +20,9 @@ sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_genera
 # sed -i 's/^\s*$[(]call\sEnsureVendoredVersion/#&/' feeds/packages/utils/dockerd/Makefile
 
 #恢复主机型号
-sed -i 's/(dmesg | grep .*/{a}${b}${c}${d}${e}${f}/g' package/lean/autocore/files/x86/autocore
-sed -i '/h=${g}.*/d' package/lean/autocore/files/x86/autocore
-sed -i 's/echo $h/echo $g/g' package/lean/autocore/files/x86/autocore
+#sed -i 's/(dmesg | grep .*/{a}${b}${c}${d}${e}${f}/g' package/lean/autocore/files/x86/autocore
+#sed -i '/h=${g}.*/d' package/lean/autocore/files/x86/autocore
+#sed -i 's/echo $h/echo $g/g' package/lean/autocore/files/x86/autocore
 
 #关闭串口跑码
 #sed -i 's/console=tty0//g'  target/linux/x86/image/Makefile
