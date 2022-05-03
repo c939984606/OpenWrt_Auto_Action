@@ -209,7 +209,7 @@ echo
 
 # add theme
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-atmaterial_new ./package/other/luci-theme-atmaterial_new
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-edge ./package/other/luci-theme-edge
+# svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-edge ./package/other/luci-theme-edge
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-ifit ./package/other/luci-theme-ifit
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-argonne ./package/other/luci-theme-argonne
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-theme-mcat ./package/other/luci-theme-mcat
@@ -224,5 +224,5 @@ echo
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/ifit/d' ./package/other//luci-theme-ifit/files/10_luci-theme-ifit
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/netgear/d' ./feeds/luci/themes/luci-theme-netgear/root/etc/uci-defaults/30_luci-theme-netgear
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/neobird/d' ./package/other/luci-theme-neobird/root/etc/uci-defaults/30_luci-theme-neobird
-sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/edge/d' ./package/other/luci-theme-edge/root/etc/uci-defaults/30_luci-theme-edge
+# sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/edge/d' ./package/other/luci-theme-edge/root/etc/uci-defaults/30_luci-theme-edge
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/bootstrap/d' ./feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
