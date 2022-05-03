@@ -158,8 +158,10 @@ jobs:
         cd openwrt/bin/targets/*/*
         rm -rf packages
         
+        sudo apt-get install  rename
         sudo apt-get install  s3fs
         mkdir -p upload_tmp
+        rename 's/^/xxb_/' *
         find . -type f -name "*.vmdk" -print0 | xargs -0r rm
         find . -type f -name "*rootfs*" -print0 | xargs -0r rm
         find . -type f -name "*kernel.bin" -print0 | xargs -0r rm        
