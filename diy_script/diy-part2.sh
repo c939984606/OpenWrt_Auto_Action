@@ -35,8 +35,8 @@ else
 fi
 
 #修改默认主题为luci-theme-argonne
-#sed -i "s/Bootstrap/Argonne/g" ./feeds/luci/collections/luci/Makefile
-#sed -i "s/luci-theme-bootstrap/luci-theme-argonne/g" ./feeds/luci/collections/luci/Makefile
+sed -i "s/Bootstrap/Argonne/g" ./feeds/luci/collections/luci/Makefile
+sed -i "s/luci-theme-bootstrap/luci-theme-argonne/g" ./feeds/luci/collections/luci/Makefile
 
 #修改x86首页
 #  rm -rf package/lean/autocore/files/index.htm
@@ -226,3 +226,4 @@ sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/netgear/d' ./feeds/luci/them
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/neobird/d' ./package/other/luci-theme-neobird/root/etc/uci-defaults/30_luci-theme-neobird
 # sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/edge/d' ./package/other/luci-theme-edge/root/etc/uci-defaults/30_luci-theme-edge
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/bootstrap/d' ./feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/material/d' ./feeds/luci/themes/luci-theme-material/root/etc/uci-defaults/30_luci-theme-material
