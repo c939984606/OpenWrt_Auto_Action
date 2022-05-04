@@ -1,5 +1,5 @@
 ##
-name: Build-OpenWrt_X64_xxb
+name: Build-OpenWrt_X64_For_xxb
 
 on:
   repository_dispatch:
@@ -20,7 +20,7 @@ env:
   DIY_P1_SH: diy_script/diy-part1.sh
   DIY_P2_SH: diy_script/diy-part2.sh
   COMMIT_LOG_NUM: 1
-  RELEASE_TAG: X64_xxb
+  RELEASE_TAG: X64_For_xxb
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
