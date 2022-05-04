@@ -161,11 +161,11 @@ jobs:
         sudo apt-get install  rename
         sudo apt-get install  s3fs
         mkdir -p upload_tmp
-        rename 's/^/xxb_/' *
         find . -type f -name "*.vmdk" -print0 | xargs -0r rm
         find . -type f -name "*rootfs*" -print0 | xargs -0r rm
         find . -type f -name "*kernel.bin" -print0 | xargs -0r rm        
         find . -type f -name "*.img" | xargs cp -t ./upload_tmp
+        rename 's/^/xxb_/' ./upload_tmp/*
         mkdir -p upload
         echo "${{ secrets.password }}" > ./passwd-s3fs
         chmod 600 ./passwd-s3fs
