@@ -177,10 +177,10 @@ echo "-----------------------------------------------------"
 echo
 
 # add passwall
-#git clone https://github.com/kenzok8/small ./package/other/small
-#svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall2 ./package/other/luci-app-passwall2
-#echo "-----------------------------------------------------"
-#echo
+git clone https://github.com/kenzok8/small ./package/other/small
+svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall2 ./package/other/luci-app-passwall2
+echo "-----------------------------------------------------"
+echo
 
 #微信推送钉钉机器人版
 git clone https://github.com/zzsj0928/luci-app-pushbot ./package/other/luci-app-pushbot
