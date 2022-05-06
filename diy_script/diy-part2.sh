@@ -176,9 +176,15 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-openclash ./pa
 echo "-----------------------------------------------------"
 echo
 
-# add passwall
+# add passwall2
 git clone https://github.com/kenzok8/small ./package/other/small
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall2 ./package/other/luci-app-passwall2
+echo "-----------------------------------------------------"
+echo
+
+# add passwall
+git clone https://github.com/kenzok8/small ./package/other/small
+svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall ./package/other/luci-app-passwall
 echo "-----------------------------------------------------"
 echo
 
