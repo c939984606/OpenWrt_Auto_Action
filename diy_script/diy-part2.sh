@@ -223,11 +223,12 @@ svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-argonne-config
 echo "-----------------------------------------------------"
 echo
 
+
 #删除默认主题配置
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/netgear/d' ./feeds/luci/themes/luci-theme-netgear/root/etc/uci-defaults/30_luci-theme-netgear
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/neobird/d' ./package/other/luci-theme-neobird/root/etc/uci-defaults/30_luci-theme-neobird
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/bootstrap/d' ./feeds/luci/themes/luci-theme-bootstrap/root/etc/uci-defaults/30_luci-theme-bootstrap
 sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/material/d' ./feeds/luci/themes/luci-theme-material/root/etc/uci-defaults/30_luci-theme-material
-sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/atmaterial_new/d' ./feeds/luci/themes/luci-theme-atmaterial_new/root/etc/uci-defaults/30_luci-theme-atmaterial_new
-sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/mcat/d' ./feeds/luci/themes/luci-theme-mcat/files/30_luci-theme-mcat
-sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/tomato/d' ./feeds/luci/themes/luci-theme-tomato/root/etc/uci-defaults/30_luci-theme-tomato
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/atmaterial_new/d' ./package/other/luci-theme-atmaterial_new/root/etc/uci-defaults/30_luci-theme-atmaterial_new
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/mcat/d' ./package/other/luci-theme-mcat/files/30_luci-theme-mcat
+sed -i '/set\ luci.main.mediaurlbase=\/luci-static\/tomato/d' ./package/other/luci-theme-tomato/root/etc/uci-defaults/30_luci-theme-tomato
