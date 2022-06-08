@@ -10,6 +10,9 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
+#修复SSR PULS依赖编译报错
+sed -i 's/luci-lib-ipkg/luci-base/g' package/luci-app-ssr-plus/Makefile
+
 # Modify default passwd
 #sed -i '/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF./ d' package/lean/default-settings/files/zzz-default-settings
 
