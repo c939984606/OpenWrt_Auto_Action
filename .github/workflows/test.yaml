@@ -52,12 +52,17 @@ jobs:
 
     - name: Organize files
       id: organize
+      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd openwrt/bin/targets/*/*
-        rm -rf packages
-        find . -type f -name "*.vmdk" -print0 | xargs -0r rm
-        find . -type f -name "*rootfs*" -print0 | xargs -0r rm
-        find . -type f -name "*kernel.bin" -print0 | xargs -0r rm        
-        find . -type f -name "*.img" | xargs cp -rt ./upload_tmp
+        sudo apt-get install  s3fs
+        mkdir -p upload
+        touch 123.txt
+        echo "${{ secrets.password }}" > ./passwd-s3fs
+        chmod 600 ./passwd-s3fs
+        s3fs data ./upload -o passwd_file=./passwd-s3fs -o url=${{ secrets.miniourl }} -o use_path_request_style -o umask=0000
+        rm -rf ./passwd-s3fs
+        mkdir -p ./upload/OpenWrt/$(date +%Y%m%d)
+        cp -rf 123.txt ./upload/OpenWrt/$(date +%Y%m%d)
+        sudo umount -f $PWD/upload
 
 
