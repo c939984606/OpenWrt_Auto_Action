@@ -120,7 +120,7 @@ jobs:
 
     - name: fail-action        
       run:  |
-         if ${{ step.compile.result != 'success' }}; then
+         if ${{ step10.result != 'success' }}; then
             exit 1
          fi
 
