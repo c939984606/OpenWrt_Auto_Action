@@ -11,7 +11,7 @@
 #
 
 #修复SSR PULS依赖编译报错
-sed -i 's/luci-lib-ipkg/luci-base/g' package/luci-app-ssr-plus/Makefile
+#sed -i 's/luci-lib-ipkg/luci-base/g' package/luci-app-ssr-plus/Makefile
 
 # Modify default passwd
 #sed -i '/$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF./ d' package/lean/default-settings/files/zzz-default-settings
@@ -180,16 +180,16 @@ echo "-----------------------------------------------------"
 echo
 
 # add passwall2
-git clone https://github.com/kenzok8/small ./package/other/small
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall2 ./package/other/luci-app-passwall2
-echo "-----------------------------------------------------"
-echo
+#git clone https://github.com/kenzok8/small ./package/other/small
+#svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall2 ./package/other/luci-app-passwall2
+#echo "-----------------------------------------------------"
+#echo
 
 # add passwall
-git clone https://github.com/kenzok8/small ./package/other/small
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall ./package/other/luci-app-passwall
-echo "-----------------------------------------------------"
-echo
+#git clone https://github.com/kenzok8/small ./package/other/small
+#svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-passwall ./package/other/luci-app-passwall
+#echo "-----------------------------------------------------"
+#echo
 
 #微信推送钉钉机器人版
 git clone https://github.com/zzsj0928/luci-app-pushbot ./package/other/luci-app-pushbot
