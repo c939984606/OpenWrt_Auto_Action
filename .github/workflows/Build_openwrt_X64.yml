@@ -139,6 +139,9 @@ jobs:
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
+        success=$(find ./bin/targets -type f -name "*kernel.bin" -print0)
+        if [ $success ]; then echo "::set-output name=status::success"; grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME; [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV; echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV; else exit 1; fi
+
 
     - name: Remove Unuselesss Files To Free Up Space
       id: removeunuselessfiles
@@ -164,6 +167,7 @@ jobs:
     - name: Organize files
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      continue-on-error: true
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -185,6 +189,7 @@ jobs:
         
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
+      
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
