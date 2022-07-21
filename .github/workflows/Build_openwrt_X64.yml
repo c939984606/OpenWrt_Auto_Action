@@ -60,6 +60,7 @@ jobs:
         }'
 
     - name: Initialization environment
+      if: success()
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -73,6 +74,7 @@ jobs:
         sudo chown $USER:$GROUPS /workdir
 
     - name: Clone source code
+      if: success()
       working-directory: /workdir
       run: |
         df -hT $PWD
@@ -80,12 +82,14 @@ jobs:
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Cache
+      if: success()
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
         prefix: ${{ github.workspace }}/openwrt
         
     - name: Load custom feeds
+      if: success()
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
         chmod +x $DIY_P1_SH
@@ -93,17 +97,20 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: Update feeds
+      if: success()
       run: |
         cd openwrt
         ./scripts/feeds update -a
 
     - name: Install feeds
+      if: success()
       run: |
         cd openwrt
         ./scripts/feeds install -a
         ./scripts/feeds install -a
 
     - name: Load custom configuration
+      if: success()
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
@@ -119,6 +126,7 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: Download package
+      if: success()
       id: package
       run: |
         mkdir -p $GITHUB_WORKSPACE/openwrt/dl
@@ -130,6 +138,7 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
+      if: success()
       id: compile
       run: |
         cd openwrt
@@ -139,11 +148,9 @@ jobs:
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
-        success=$(find ./bin/targets -type f -name "*kernel.bin" -print0)
-        if [ $success ]; then echo "::set-output name=status::success"; grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME; [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV; echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV; else exit 1; fi
-
 
     - name: Remove Unuselesss Files To Free Up Space
+      if: success()
       id: removeunuselessfiles
       run: |
         rm -rf  $GITHUB_WORKSPACE/openwrt/build_dir
@@ -154,20 +161,20 @@ jobs:
         rm -rf  $GITHUB_WORKSPACE/openwrt/tools
 
     - name: Check space usage
-      if: (!cancelled())
+      if: success()
       run: df -hT
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: success() && env.UPLOAD_BIN_DIR == 'true'
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
-      continue-on-error: true
+      if: success() && env.UPLOAD_FIRMWARE == 'true'
+      #continue-on-error: true
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -193,14 +200,14 @@ jobs:
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: success()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: success() && env.UPLOAD_RELEASE == 'true'
       run: |
         echo "::set-output name=release_tag::$RELEASE_TAG-$(date +"%Y.%m.%d-%H%M")"
 
@@ -259,7 +266,7 @@ jobs:
 
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: success()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -277,7 +284,7 @@ jobs:
 
     - name: Remove old Releases
       uses: smallprogram/delete-older-releases@v0.2.1
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: success() && env.UPLOAD_RELEASE == 'true'
       with:
         keep_latest: 6
         delete_tags: true
