@@ -126,7 +126,6 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
     - name: Download package
-      if: success()
       id: package
       run: |
         mkdir -p $GITHUB_WORKSPACE/openwrt/dl
@@ -138,7 +137,6 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
-      if: success()
       id: compile
       run: |
         cd openwrt
