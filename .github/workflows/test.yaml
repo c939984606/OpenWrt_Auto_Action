@@ -65,7 +65,7 @@ jobs:
         echo -e "🚩   开始同步固件到阿里云网盘：/Share/Frimware 目录"
         refresh_token=`curl -s ${{ secrets.refresh_token }}|awk -F ':' '{print $2}'`
         echo -e "refresh_token: '$refresh_token'"  >  ~/.config/aliyunpan.yaml
-        aliyunpan-cli upload_tmp/*  /Share/Frimware/OpenWrt_Auto_Action/$(date +%Y%m%d)
+        aliyunpan-cli upload upload_tmp/*  /Share/Frimware/OpenWrt_Auto_Action/$(date +%Y%m%d)
         echo       
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
