@@ -52,7 +52,7 @@ jobs:
         sudo pip install aliyunpan
         mkdir -p upload_tmp/$(date +%Y%m%d)
         cd ./upload_tmp/$(date +%Y%m%d)
-        touch 123.txt
+        wget https://files.istar.run/d/Share/IPA/UDID/11/Taurine/Taurine-1.1.6.ipa
         cd ../..
         mkdir -p upload
         echo "${{ secrets.password }}" > ./passwd-s3fs
