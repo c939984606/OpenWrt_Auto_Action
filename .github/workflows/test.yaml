@@ -47,7 +47,8 @@ jobs:
       timeout-minutes: 600
       id: organize
       run: |  
-        sudo apt-get install -s s3fs python3-pip
+        sudo apt-get install s3fs 
+        sudo apt-get install python3-pip
         sudo pip install aliyunpan
         mkdir -p upload_tmp
         cd ./upload_tmp && touch 123.txt
