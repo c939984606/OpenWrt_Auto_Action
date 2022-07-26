@@ -152,6 +152,7 @@ jobs:
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Remove Unuselesss Files To Free Up Space
+      timeout-minutes: 600
       id: removeunuselessfiles
       run: |
         rm -rf  $GITHUB_WORKSPACE/openwrt/build_dir
@@ -162,9 +163,11 @@ jobs:
         rm -rf  $GITHUB_WORKSPACE/openwrt/tools
 
     - name: Check space usage
+      timeout-minutes: 600
       run: df -hT
 
     - name: Upload bin directory
+      timeout-minutes: 600
       uses: actions/upload-artifact@main
       if: success() && env.UPLOAD_BIN_DIR == 'true'
       with:
@@ -172,6 +175,7 @@ jobs:
         path: openwrt/bin
 
     - name: Organize files
+      timeout-minutes: 600
       id: organize
       if: success() && env.UPLOAD_FIRMWARE == 'true'
       #continue-on-error: true
@@ -199,6 +203,7 @@ jobs:
       
 
     - name: Upload firmware directory
+      timeout-minutes: 600
       uses: actions/upload-artifact@main
       if: success()
       with:
@@ -265,6 +270,7 @@ jobs:
         echo "::set-output name=status::success"
 
     - name: Upload firmware to release
+      timeout-minutes: 600
       uses: softprops/action-gh-release@v1
       if: success()
       env:
@@ -275,6 +281,7 @@ jobs:
         files: ${{ env.FIRMWARE }}/*
 
     - name: Delete workflow runs
+      timeout-minutes: 600
       uses: GitRML/delete-workflow-runs@main
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -283,6 +290,7 @@ jobs:
         keep_minimum_runs: 1
 
     - name: Remove old Releases
+      timeout-minutes: 600
       uses: smallprogram/delete-older-releases@v0.2.1
       if: success() && env.UPLOAD_RELEASE == 'true'
       with:
@@ -292,6 +300,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                
     - name: WECHAT_PUSH Message
+      timeout-minutes: 600
       if: env.WECHAT_PUSH == 'true'
       run: |
         starttime=$(cat runtime.log)
