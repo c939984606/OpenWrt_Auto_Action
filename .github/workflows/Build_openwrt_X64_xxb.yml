@@ -91,6 +91,10 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
+        sed -i 's/KERNEL_PATCHVER\:\=5.15/KERNEL_PATCHVER\:\=5.10/g' ./target/linux/x86/Makefile
+        echo
+        cat ./target/linux/x86/Makefile
+        echo
 
     - name: Update feeds
       run: |
@@ -105,10 +109,6 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        sed -i 's/KERNEL_PATCHVER\:\=5.15/KERNEL_PATCHVER\:\=5.10/g' ./target/linux/x86/Makefile
-        echo
-        cat ./target/linux/x86/Makefile
-        echo
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $DIY_P2_SH
