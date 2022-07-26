@@ -47,7 +47,8 @@ jobs:
       timeout-minutes: 600
       id: organize
       run: |  
-        sudo apt-get install  s3fs
+        sudo apt-get install -s s3fs python3-pip
+        sudo pip install aliyunpan
         mkdir -p upload_tmp
         cd ./upload_tmp && touch 123.txt
         cd ..
@@ -59,7 +60,12 @@ jobs:
         mkdir -p ./upload/OpenWrt/$(date +%Y%m%d)
         cp -rf ./upload_tmp/* ./upload/OpenWrt/$(date +%Y%m%d)
         sudo umount -f $PWD/upload
-        
+        echo 
+        echo -e "🚩   开始同步固件到阿里云网盘：/Share/Frimware 目录"
+        refresh_token=`curl -s ${{ secrets.refresh_token }}|awk -F ':' '{print $2}'`
+        echo -e "refresh_token: '$refresh_token'"  >  ~/.config/aliyunpan.yaml
+        aliyunpan-cli upload_tmp/*  /Share/Frimware/OpenWrt_Auto_Action/$(date +%Y%m%d)
+        echo       
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
