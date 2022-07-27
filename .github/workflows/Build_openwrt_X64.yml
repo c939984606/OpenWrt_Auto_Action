@@ -169,7 +169,7 @@ jobs:
     - name: Upload bin directory
       timeout-minutes: 600
       uses: actions/upload-artifact@main
-      if: success() && env.UPLOAD_BIN_DIR == 'true'
+      if: env.UPLOAD_BIN_DIR == 'true'
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/bin
@@ -177,8 +177,8 @@ jobs:
     - name: Organize files
       timeout-minutes: 600
       id: organize
-      if: success() && env.UPLOAD_FIRMWARE == 'true'
-      #continue-on-error: true
+      if: env.UPLOAD_FIRMWARE == 'true'
+      continue-on-error: true
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
@@ -210,7 +210,6 @@ jobs:
     - name: Upload firmware directory
       timeout-minutes: 600
       uses: actions/upload-artifact@main
-      if: success()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
