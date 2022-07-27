@@ -148,9 +148,9 @@ jobs:
         
         sudo apt-get install s3fs python3-pip
         sudo pip install aliyunpan
-        mkdir -p upload_tmp/$(date +%Y%m%d)
+        mkdir -p upload_tmp/K2P/$(date +%Y%m%d)
         find . -type f -name "*kernel.bin" -print0 | xargs -0 rm        
-        find . -type f -name "*.bin" | xargs cp -t ./upload_tmp/$(date +%Y%m%d)
+        find . -type f -name "*.bin" | xargs cp -t ./upload_tmp/K2P/$(date +%Y%m%d)
         mkdir -p upload
         echo "${{ secrets.password }}" > ./passwd-s3fs
         chmod 600 ./passwd-s3fs
