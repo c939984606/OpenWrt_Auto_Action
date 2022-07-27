@@ -18,7 +18,7 @@ env:
   FEEDS_CONF: feeds_config/custom.feeds.conf.default
   CONFIG_FILE: config/x64_xxb.config
   DIY_P1_SH: diy_script/diy-part1.sh
-  DIY_P2_SH: diy_script/diy-part2.sh
+  DIY_P2_SH: diy_script/diy-part2-xxb.sh
   COMMIT_LOG_NUM: 1
   RELEASE_TAG: X64_For_xxb
   UPLOAD_BIN_DIR: false
@@ -91,7 +91,6 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-        sed -i 's/KERNEL_PATCHVER\:\=5.15/KERNEL_PATCHVER\:\=5.10/g' ./target/linux/x86/Makefile
         echo
         cat ./target/linux/x86/Makefile
         echo
@@ -100,9 +99,6 @@ jobs:
       run: |
         cd openwrt
         ./scripts/feeds update -a
-        cd ./scripts/feeds/passwall_luci
-        git reset --hard HEAD d4e05410d3364cdd2945a8f6b778eead1721c95f
-        cd ../../../
         
     - name: Install feeds
       run: |
