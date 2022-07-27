@@ -100,7 +100,10 @@ jobs:
       run: |
         cd openwrt
         ./scripts/feeds update -a
-
+        cd ./scripts/feeds/passwall_luci
+        git reset --hard HEAD d4e05410d3364cdd2945a8f6b778eead1721c95f
+        cd ../../../
+        
     - name: Install feeds
       run: |
         cd openwrt
