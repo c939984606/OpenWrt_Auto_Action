@@ -152,27 +152,26 @@ jobs:
         rm -rf  $GITHUB_WORKSPACE/openwrt/target
         rm -rf  $GITHUB_WORKSPACE/openwrt/toolchain
         rm -rf  $GITHUB_WORKSPACE/openwrt/tools
-        
+
     - name: Check space usage
-      if: (!cancelled())
       run: df -hT
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
+      if: env.UPLOAD_BIN_DIR == 'true'
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: openwrt/bin
 
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true'
       continue-on-error: true
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages
         
-        sudo apt-get install s3fs python3-pip
+        sudo apt-get install s3fs python3-pip rename
         sudo pip install aliyunpan
         mkdir -p upload_tmp/x86_64_for_xxb/$(date +%Y%m%d)
         find . -type f -name "*.vmdk" -print0 | xargs -0r rm
@@ -200,14 +199,13 @@ jobs:
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && success()
       run: |
         echo "::set-output name=release_tag::$RELEASE_TAG-$(date +"%Y.%m.%d-%H%M")"
 
@@ -266,7 +264,7 @@ jobs:
 
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: steps.tag.outputs.status == 'success' && && success()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -284,7 +282,7 @@ jobs:
 
     - name: Remove old Releases
       uses: smallprogram/delete-older-releases@v0.2.1
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && success()
       with:
         keep_latest: 6
         delete_tags: true
