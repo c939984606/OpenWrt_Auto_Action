@@ -268,7 +268,7 @@ jobs:
         echo "<details> <summary> Passwall Commit Top $COMMIT_LOG_NUM </summary>" >> release.txt
         echo "<br>" >> release.txt
         echo "" >> release.txt 
-        echo -e "> $(git -C openwrt/feeds/passwall log -n $COMMIT_LOG_NUM)" >> release.txt
+        echo -e "> $(git -C openwrt/feeds/passwall_luci log -n $COMMIT_LOG_NUM)" >> release.txt
         echo "" >> release.txt
         echo "</details>" >> release.txt 
 
