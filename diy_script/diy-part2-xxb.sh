@@ -189,8 +189,8 @@ echo
 #echo
 
 # add passwall
-git clone -b passwall_luci https://github.com/xiaorouji/openwrt-passwall.git ./package/other/passwall_luci
-git clone -b passwall_packages https://github.com/xiaorouji/openwrt-passwall.git ./package/other/passwall_packages
+git clone -b luci https://github.com/xiaorouji/openwrt-passwall.git ./package/other/passwall_luci
+git clone -b packages https://github.com/xiaorouji/openwrt-passwall.git ./package/other/passwall_packages
 cd ./package/other/passwall_luci
 git reset --hard d4e05410d3364cdd2945a8f6b778eead1721c95f
 cd ../../../ && cd ./package/other/passwall_packages
