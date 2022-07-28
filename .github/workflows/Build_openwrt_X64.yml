@@ -42,7 +42,7 @@ jobs:
         starttime=$(echo `date +'%Y-%m-%d %H:%M:%S'`)
         url="https://qyapi.weixin.qq.com/cgi-bin"
         token=`curl -s "$url/gettoken?corpid=${{ secrets.ID }}&corpsecret=${{ secrets.SECRET }}"|jq -r .access_token`
-        curl --location --request POST 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token='"${token}"'' \
+        curl -s --location --request POST 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token='"${token}"'' \
         --header 'Content-Type: application/json' \
         --data-raw '{
           "touser" : "@all",
