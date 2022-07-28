@@ -19,7 +19,6 @@ env:
   CONFIG_FILE: config/k2p.config
   COMMIT_LOG_NUM: 1
   RELEASE_TAG: K2P
-  UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
@@ -118,32 +117,12 @@ jobs:
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
-    - name: Remove Unuselesss Files To Free Up Space
-      id: removeunuselessfiles
-      run: |
-        rm -rf  $GITHUB_WORKSPACE/openwrt/build_dir
-        rm -rf  $GITHUB_WORKSPACE/openwrt/dl
-        rm -rf  $GITHUB_WORKSPACE/openwrt/staging_dir
-        rm -rf  $GITHUB_WORKSPACE/openwrt/target
-        rm -rf  $GITHUB_WORKSPACE/openwrt/toolchain
-        rm -rf  $GITHUB_WORKSPACE/openwrt/tools
-        
-    - name: Check space usage
-      if: (!cancelled())
-      run: df -hT
-
-    - name: Upload bin directory
-      uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
-      with:
-        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: openwrt/bin
-
     - name: Organize files
       id: organize
-      if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: env.UPLOAD_FIRMWARE == 'true' && steps.compile.outputs.status == 'success'
       continue-on-error: true
       run: |
+        df -hT
         cd openwrt/bin/targets/*/*
         rm -rf packages
         
@@ -171,14 +150,14 @@ jobs:
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@main
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success'
       with:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
     - name: Generate release tag
       id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success'
       run: |
         echo "::set-output name=release_tag::$RELEASE_TAG-$(date +"%Y.%m.%d-%H%M")"
 
@@ -223,7 +202,7 @@ jobs:
 
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
+      if: steps.compile.outputs.status == 'success'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -241,7 +220,7 @@ jobs:
 
     - name: Remove old Releases
       uses: smallprogram/delete-older-releases@v0.2.1
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      if: env.UPLOAD_RELEASE == 'true' && steps.compile.outputs.status == 'success'
       with:
         keep_latest: 6
         delete_tags: true
