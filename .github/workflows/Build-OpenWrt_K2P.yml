@@ -125,6 +125,7 @@ jobs:
         df -hT
         cd openwrt/bin/targets/*/*
         rm -rf packages
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         
         sudo apt-get install s3fs python3-pip
         sudo pip install aliyunpan
@@ -144,7 +145,6 @@ jobs:
         echo -e "refresh_token: '$refresh_token'"  >  ~/.config/aliyunpan.yaml
         aliyunpan-cli upload upload_tmp/*  /Share/Frimware/OpenWrt_Auto_Action
         echo        
-        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
 
