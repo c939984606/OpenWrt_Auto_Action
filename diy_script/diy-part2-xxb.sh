@@ -28,7 +28,7 @@
 #sed -i 's/console=tty0//g'  target/linux/x86/image/Makefile
 
 # 切换内核版本
-sed -i 's/KERNEL_PATCHVER\:\=5.15/KERNEL_PATCHVER\:\=5.10/g' ./target/linux/x86/Makefile
+#sed -i 's/KERNEL_PATCHVER\:\=5.15/KERNEL_PATCHVER\:\=5.10/g' ./target/linux/x86/Makefile
 
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
