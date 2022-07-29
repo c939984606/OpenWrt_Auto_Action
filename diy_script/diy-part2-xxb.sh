@@ -35,7 +35,7 @@ sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_genera
 
 #修改X86默认固件大小
 if [[ `grep -o "default 160" config/Config-images.in | wc -l` == "1" ]]; then
-    sed -i 's\default 160\default 200\g' config/Config-images.in
+    sed -i 's\default 300\default 200\g' config/Config-images.in
 else
     echo ""
 fi
